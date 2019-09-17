@@ -22,7 +22,7 @@ class CreateCategoriesTable extends Migration
             $table->string('banner',128);
             $table->unsignedInteger('category_id')->default(0);
             $table->timestamps();
-            $table->foregin('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 
