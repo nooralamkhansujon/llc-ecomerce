@@ -10,14 +10,21 @@
       <div class="row">
 
 
-      @foreach($products as $product)
+@foreach($products as $product)
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
-             <img src="{{ asset('storage/'.$product->getMedia('products')[0]->id.'/'.$product->getMedia('products')[0]->file_name) }}" class="card-img-top" alt="{{ $product->title }}" />
+             <a href="{{route('product.details',$product->slug)}}">
+                <img src="{{ asset('storage/'.$product->getMedia('products')[0]->id.'/'.$product->getMedia('products')[0]->file_name) }}" class="card-img-top" alt="{{ $product->title }}" />
+             </a>
+
             <div class="card-body">
 
               <p class="card-text">
-              {{ $product->title }}
+              <a 
+               href="{{route('product.details',$product->slug)}}">
+                 {{ $product->title }}
+              </a>
+           
               </p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
@@ -28,9 +35,10 @@
             </div>
           </div>
         </div>
-       @endforeach 
-      </div>
-       
+@endforeach 
+
+      </div>       
+      
       <div class="d-flex justify-content-center">
            {{$products->render()}}
       </div>
