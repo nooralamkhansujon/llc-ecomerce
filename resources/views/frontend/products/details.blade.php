@@ -22,12 +22,25 @@
       </div>
 
       <div class="card-footer mt-5 d-flex justify-content-between">
-        <a  href="#" class="btn btn-outline-primary btn-lg">
-           Add To Cart
-        </a>
+             <form action="{{route('cart.add')}}" 
+             method="POST" >
+                  @csrf 
+                  <input type="hidden" name="product_id" value="{{ $product->id }}">
+                  <button type="submit" class="btn btn-sm btn-outline-secondary">
+                  <i class="fa fa-shopping-cart"></i>
+                   Add to Cart
+                  </button>
+            </form>
         <p>
-          <span class="currency">BDT </span>
-          <strong class="num">{{ $product->price }}</strong>
+          <strong class="text-muted">
+                  @if($product->sale_price || $product->sale_price > 0)
+                     BDT <strike class="text-danger">
+                     {{ $product->price }}</strike>  {{ $product->sale_price }}
+                  @else 
+                      {{ $product->price }}
+                  @endif 
+               
+            </strong>
         </p>
        
     </div>
