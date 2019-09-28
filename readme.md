@@ -1,8 +1,8 @@
 
 ## Packages Used
--laravel media library
--bootstrap
--javascript
+- laravel media library
+- bootstrap
+- javascript
 
 ## About Laravel
 
