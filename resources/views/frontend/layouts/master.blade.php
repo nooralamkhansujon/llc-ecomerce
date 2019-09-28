@@ -20,13 +20,7 @@
 
 
 <main role="main">
- <div class="container text-light">
-   <div class="row">
-     <div class="col-md-12">
-        @include('frontend.partials.message')
-     </div>
-   </div>
- </div>
+ 
 @yield('main-content')
   
 </main>

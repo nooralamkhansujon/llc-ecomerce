@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Order;
 use Validator;
+use App\Notifications\OrderEmailNotification;
+
 class CartController extends Controller
 {
     
@@ -93,7 +95,6 @@ class CartController extends Controller
    {
       $data=[];
       $data['cart']  = session()->has('cart')?session()->get('cart'):[] ;
-
       $data['total'] = array_sum(array_column($data['cart'],'total_price'));
        
        return view('frontend.checkout',$data);
@@ -101,6 +102,7 @@ class CartController extends Controller
 
    public function processOrder()
    {
+       //check validation
        $validator = Validator::make(request()->all(),[
            'customer_name'         => 'required',
            'customer_phone_number' => 'required',
@@ -108,7 +110,8 @@ class CartController extends Controller
            'city'        => 'required',
            'postal_code' => 'required'
        ]);
-
+       
+       //if validation fails 
        if($validator->fails())
        {
            return redirect()->back()->withErrors($validator);
@@ -117,6 +120,7 @@ class CartController extends Controller
        $cart  = session()->has('cart')?session()->get('cart'):[] ;
        $total = array_sum(array_column($cart,'total_price'));
        
+       //this will make order
        $order = Order::create([
            'user_id'       => auth()->user()->id,
            'customer_name' => request()->input('customer_name'),
@@ -128,7 +132,8 @@ class CartController extends Controller
            'paid_amount'  => $total,
            'payment_details' =>'Cash on Delivery'
        ]);
-
+      
+       /// this add products to the orderproduct table from the cart
        foreach($cart as $product_id => $product)
        {
            $order->products()->create([
@@ -138,10 +143,10 @@ class CartController extends Controller
 
              ]);
        }
+      
 
        session()->forget('cart');
        session()->flash('message','Order Placed successfully');
-
        return redirect()->route('order.details',$order->id);
    }
     
@@ -149,6 +154,7 @@ class CartController extends Controller
        
        $data          = [];
        $data['order'] = Order::with(['products','products.product'])->findOrFail($id);
+       
        return view('frontend.orders.details',$data);
     }
 

@@ -1,12 +1,22 @@
 @extends('frontend.layouts.master')
 
 @section('main-content') 
-
+    
     @include('frontend.partials.hero');
+
     <div class="container">
         <br>
             <p class="text-center">Checkout</p>
         <hr> 
+
+      <!--This will show message  -->
+      <div class="container text-light">
+        <div class="row">
+          <div class="col-md-12">
+              @include('frontend.partials.message')
+          </div>
+        </div>
+      </div>
 
         @guest()
             <div class="alert alert-info">

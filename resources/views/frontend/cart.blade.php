@@ -7,15 +7,18 @@
         <p class="text-center">Cart</p>
       <hr>
 
-      @if(session()->has('message'))
-      <div class="alert alert-success">
-          <li>
-            {{ session()->get('message') }}
-           <span align="right" data-dismiss="alert">
-           &times;</span>
-          </li>
+  <!-- This will show message-->
+    <div class="container text-light">
+      <div class="row">
+        <div class="col-md-12">
+            @include('frontend.partials.message')
+        </div>
       </div>
-      @endif
+    </div>
+
+    
+
+
 
       <div class="table-responsive">
 
