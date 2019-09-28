@@ -12,7 +12,7 @@ use Carbon;
 use Mail;
 use App\Events;
 use App\Events\NewCustomerHasRegisteredEvent;
-
+use App\Models\Order;
 class AuthController extends Controller
 {
 
@@ -96,34 +96,40 @@ class AuthController extends Controller
        
     }
 
-    public function activate($token = null)
-    {
-        if($token == null){
+    // public function activate($token = null)
+    // {
+    //     if($token == null){
 
-            return redirect('/');
-        }
-        $user = User::where('email_verification_token',$token)->firstOrFail();
+    //         return redirect('/');
+    //     }
+    //     $user = User::where('email_verification_token',$token)->firstOrFail();
 
-        if($user){
+    //     if($user){
            
-            $user->update([
-               'email_verified_at' => Carbon::now(),
-               'email_verification_token' => null
-            ]);
-            $this->setSuccess("Account registered");
-            return redirect()->route('login');
-        }
+    //         $user->update([
+    //            'email_verified_at' => Carbon::now(),
+    //            'email_verification_token' => null
+    //         ]);
+    //         $this->setSuccess("Account registered");
+    //         return redirect()->route('login');
+    //     }
 
-        $this->setError('Invalid token.');
-        return redirect('/');
-    }
+    //     $this->setError('Invalid token.');
+    //     return redirect('/');
+    // }
 
     public function logout()
     {
         auth()->logout();
         return redirect('login');
     }
-
+    
+    public function profile(){
+        
+        $data           = [];
+        $data['orders'] = Order::where('user_id',auth()->user()->id)->get();
+        return view('frontend.auth.profile',$data);
+    }
 
 }
 

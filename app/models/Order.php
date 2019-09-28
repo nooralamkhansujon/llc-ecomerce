@@ -15,7 +15,7 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
     
-    public function processeor(){
+    public function processor(){
 
         return $this->hasOne(User::class,'processed_by');
     }
